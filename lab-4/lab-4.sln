@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoR", "CoR\CoR.csproj", "{0B402110-1109-4371-B604-1DAAFAD8A3F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediator", "Mediator\Mediator.csproj", "{32BEF1BB-4C15-4341-BC5C-D19668BD551E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memento", "Memento\Memento.csproj", "{D4F73687-6893-4C9E-A451-03AF9C4027B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B402110-1109-4371-B604-1DAAFAD8A3F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B402110-1109-4371-B604-1DAAFAD8A3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B402110-1109-4371-B604-1DAAFAD8A3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B402110-1109-4371-B604-1DAAFAD8A3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32BEF1BB-4C15-4341-BC5C-D19668BD551E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32BEF1BB-4C15-4341-BC5C-D19668BD551E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32BEF1BB-4C15-4341-BC5C-D19668BD551E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32BEF1BB-4C15-4341-BC5C-D19668BD551E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F73687-6893-4C9E-A451-03AF9C4027B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F73687-6893-4C9E-A451-03AF9C4027B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F73687-6893-4C9E-A451-03AF9C4027B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F73687-6893-4C9E-A451-03AF9C4027B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
