@@ -1,4 +1,5 @@
 ﻿using Composite;
+using Composite.Strategy;
 public class Program
 {
     public static void Main()
@@ -58,5 +59,21 @@ public class Program
 
         string html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
         Console.WriteLine(html);
+
+        Console.WriteLine("\n=== Loading image from the file system.");
+        var fileImage = new LightImageNode("/images/photo.jpg");
+        fileImage.LoadImage();
+        Console.WriteLine(fileImage.OuterHtml);
+
+        Console.WriteLine("\n=== Loading image from the web.");
+        var webImage = new LightImageNode("https://picsum.photos/200");
+        webImage.LoadImage();
+        Console.WriteLine(webImage.OuterHtml);
+
+        container.AddChild(fileImage);
+        container.AddChild(webImage);
+
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine($"\n{html}");
     }
 }
