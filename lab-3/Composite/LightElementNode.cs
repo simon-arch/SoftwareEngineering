@@ -1,7 +1,15 @@
-﻿namespace Composite
+﻿using Composite.Observer;
+
+namespace Composite
 {
     public class LightElementNode : LightNode
     {
+        public List<IEventListener> subscribers { get; set; } = new List<IEventListener>();
+        public void Subscribe(IEventListener subscriber) => subscribers.Add(subscriber);
+        public void Unsubscribe(IEventListener subscriber) => subscribers.Remove(subscriber);
+        private void Notify(string arg) => subscribers.ForEach(s => s.Update(arg));
+        public void InvokeEvent(string e) => Notify(e);
+
         public string TagName { get; set; }
         public bool Block { get; set; }
         public bool SelfClosing { get; set; }
