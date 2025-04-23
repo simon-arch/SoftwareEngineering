@@ -1,4 +1,5 @@
 ﻿using Composite;
+using Composite.Observer;
 public class Program
 {
     public static void Main()
@@ -58,5 +59,31 @@ public class Program
 
         string html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
         Console.WriteLine(html);
+
+        var mouseover = new MouseOverObserver();
+        var click = new ClickObserver();
+        var focus = new FocusObserver();
+
+        var events = new List<string> { "focus", "click", "mouseover" };
+
+        Console.WriteLine("\n=== Subscribing to 'mouseover' event");
+        container.Subscribe(mouseover);
+        Console.WriteLine("=== Invoking events");
+        events.ForEach(container.InvokeEvent);
+
+        Console.WriteLine("\n=== Subscribing to 'focus' event");
+        container.Subscribe(focus);
+        Console.WriteLine("=== Invoking events");
+        events.ForEach(container.InvokeEvent);
+
+        Console.WriteLine("\n=== Subscribing to 'click' event");
+        container.Subscribe(click);
+        Console.WriteLine("=== Invoking events");
+        events.ForEach(container.InvokeEvent);
+
+        Console.WriteLine("\n=== Unsubscribing from 'focus' event");
+        container.Unsubscribe(focus);
+        Console.WriteLine("=== Invoking events");
+        events.ForEach(container.InvokeEvent);
     }
 }
