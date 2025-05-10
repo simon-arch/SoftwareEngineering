@@ -1,9 +1,11 @@
-﻿namespace Composite
+﻿using Composite.Visitor;
+
+namespace Composite
 {
     public class LightTextNode : LightNode
     {
         public string Text { get; set; }
-        public LightTextNode(string text)
+        public LightTextNode(string text = "")
         {
             Text = text;
         }
@@ -15,5 +17,9 @@
             if (Text.Contains("@")) Text = "Email Removed";
         }
         protected override bool HasText() => Text.Length > 0;
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

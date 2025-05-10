@@ -1,4 +1,6 @@
-﻿namespace Composite
+﻿using Composite.Visitor;
+
+namespace Composite
 {
     public abstract class LightNode
     {
@@ -20,5 +22,6 @@
         protected virtual bool HasClasses() => false;
         protected virtual bool HasStyles() => false;
         protected virtual bool HasText() => false;
+        public abstract void Accept(IVisitor visitor);
     }
 }

@@ -1,6 +1,11 @@
-﻿namespace Composite
+﻿using Composite.Visitor;
+﻿using Composite.State;
+﻿using Composite.Iterator;
+using Composite.Iterator.Implementations;
+
+namespace Composite
 {
-    public class LightElementNode : LightNode
+    public class LightElementNode : LightNode, IAggregate<LightElementNode>, IVisitable
     {
         public string TagName { get; set; }
         public bool Block { get; set; }
@@ -10,17 +15,24 @@
         public List<LightNode> Children { get; set; } = new List<LightNode>();
         private string classes = string.Empty;
         private string styles = string.Empty;
+        private IRenderState renderState;
         public LightElementNode(string tagName, bool isBlock, bool isSelfClosing)
         {
             TagName = tagName;
             Block = isBlock;
             SelfClosing = isSelfClosing;
+            renderState = new ShowState();
         }
+        public void SetState(IRenderState state) => renderState = state;
+        public void Show() => renderState.OnShow(this);
+        public void Hide() => renderState.OnHide(this);
         public void AddChild(LightNode child)
         {
             Children.Add(child);
         }
-        public override string OuterHtml
+        public override string OuterHtml => renderState.OnRender(this);
+        public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
+        public override void Accept(IVisitor visitor)
         {
             get
             {
@@ -62,6 +74,12 @@
         private void Log(string prefix, string message)
         {
             Console.WriteLine($"[{TagName}][{prefix}] {message}");
+            visitor.Visit(this);
+        }
+        public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
+        public IIterator<LightElementNode> GetIterator(Func<LightElementNode, IIterator<LightElementNode>> iterator)
+        {
+            return iterator(this);
         }
     }
 }
