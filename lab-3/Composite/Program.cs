@@ -5,8 +5,11 @@ public class Program
     {
         var container = new LightElementNode("div", true, false);
         container.Classes.Add("base-container");
+        container.Styles.Add("width", "100%");
+        container.Styles.Add("height", "100%");
 
         var table = new LightElementNode("table", true, false);
+        table.Styles.Add("background-color", "white");
 
         var headerRow = new LightElementNode("tr", true, false);
 
@@ -55,8 +58,17 @@ public class Program
         p.AddChild(new LightTextNode("Lorem ipsum dolor."));
 
         container.AddChild(p);
+        string html = string.Empty;
 
-        string html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine("=== Without Preparation ===");
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine(html);
+
+        Console.WriteLine("\n=== Preparating ===");
+        container.Prepare();
+
+        Console.WriteLine("\n=== With Preparation ===");
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
         Console.WriteLine(html);
     }
 }
