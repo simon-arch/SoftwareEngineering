@@ -1,8 +1,11 @@
 ﻿using Composite.Visitor;
 ﻿using Composite.State;
+﻿using Composite.Iterator;
+using Composite.Iterator.Implementations;
+
 namespace Composite
 {
-    public class LightElementNode : LightNode, IVisitable
+    public class LightElementNode : LightNode, IAggregate<LightElementNode>, IVisitable
     {
         public string TagName { get; set; }
         public bool Block { get; set; }
@@ -29,6 +32,11 @@ namespace Composite
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
+        }
+        public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
+        public IIterator<LightElementNode> GetIterator(Func<LightElementNode, IIterator<LightElementNode>> iterator)
+        {
+            return iterator(this);
         }
     }
 }
