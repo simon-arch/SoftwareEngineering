@@ -1,4 +1,6 @@
-﻿namespace Composite
+﻿using Composite.State;
+
+namespace Composite
 {
     public class LightElementNode : LightNode
     {
@@ -7,31 +9,22 @@
         public bool SelfClosing { get; set; }
         public List<string> Classes { get; set; } = new List<string>();
         public List<LightNode> Children { get; set; } = new List<LightNode>();
+        private IRenderState renderState;
         public LightElementNode(string tagName, bool isBlock, bool isSelfClosing)
         {
             TagName = tagName;
             Block = isBlock;
             SelfClosing = isSelfClosing;
+            renderState = new ShowState();
         }
+        public void SetState(IRenderState state) => renderState = state;
+        public void Show() => renderState.OnShow(this);
+        public void Hide() => renderState.OnHide(this);
         public void AddChild(LightNode child)
         {
             Children.Add(child);
         }
-        public override string OuterHtml
-        {
-            get
-            {
-                string classes = Classes.Count > 0 ? $" class='{string.Join(" ", Classes)}'" : string.Empty;
-                if (SelfClosing)
-                {
-                    return $"<{TagName}{classes}/>";
-                }
-                else
-                {
-                    return $"<{TagName}{classes}>{InnerHtml}</{TagName}>";
-                }
-            }
-        }
+        public override string OuterHtml => renderState.OnRender(this);
         public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
     }
 }

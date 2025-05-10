@@ -55,8 +55,21 @@ public class Program
         p.AddChild(new LightTextNode("Lorem ipsum dolor."));
 
         container.AddChild(p);
+        string html = string.Empty;
 
-        string html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine("=== Initial HTML ===");
+
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
         Console.WriteLine(html);
+
+        Console.WriteLine("\n=== Switching Tag State to Hidden ===");
+        table.Hide();
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine("\n"+html);
+
+        Console.WriteLine("\n=== Switching Tag State to Shown ===");
+        table.Show();
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine("\n" + html);
     }
 }
