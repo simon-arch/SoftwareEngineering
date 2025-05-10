@@ -11,10 +11,8 @@
         }
         public void Execute()
         {
-            if (!node.Classes.Contains(classname)) {
-                node.Classes.Add(classname);
-            }
+            node.AddClass(classname);
         }
-        public void Undo() => node.Classes.Remove(classname);
+        public void Undo() => node.RemoveClass(classname);
     }
 }

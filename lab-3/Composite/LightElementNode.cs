@@ -1,7 +1,6 @@
-﻿using Composite.Visitor;
-﻿using Composite.State;
-﻿using Composite.Iterator;
-using Composite.Iterator.Implementations;
+﻿﻿using Composite.Iterator;
+using Composite.Visitor;
+using Composite.State;
 
 namespace Composite
 {
@@ -10,11 +9,11 @@ namespace Composite
         public string TagName { get; set; }
         public bool Block { get; set; }
         public bool SelfClosing { get; set; }
-        public List<string> Classes { get; set; } = new List<string>();
-        public Dictionary<string, string> Styles { get; set; } = new Dictionary<string, string>();
+        public List<string> classes = new List<string>();
+        private Dictionary<string, string> styles = new Dictionary<string, string>();
         public List<LightNode> Children { get; set; } = new List<LightNode>();
-        private string classes = string.Empty;
-        private string styles = string.Empty;
+        public string Classes { get; set; } = string.Empty;
+        public string Styles { get; set; } = string.Empty;
         private IRenderState renderState;
         public LightElementNode(string tagName, bool isBlock, bool isSelfClosing)
         {
@@ -30,23 +29,17 @@ namespace Composite
         {
             Children.Add(child);
         }
+        public void AddClass(string classname) {
+            if (classes.Contains(classname)) return;
+            classes.Add(classname);
+        }
+        public void RemoveClass(string classname) => classes.Remove(classname);
         public override string OuterHtml => renderState.OnRender(this);
         public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
         public override void Accept(IVisitor visitor)
         {
-            get
-            {
-                if (SelfClosing)
-                {
-                    return $"<{TagName}{classes}{styles}/>";
-                }
-                else
-                {
-                    return $"<{TagName}{classes}{styles}>{InnerHtml}</{TagName}>";
-                }
-            }
+            visitor.Visit(this);
         }
-        public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
         protected override void OnStart()
         {
             Console.WriteLine();
@@ -61,22 +54,20 @@ namespace Composite
         }
         protected override void OnStylesApplied()
         {
-            styles = $" style='{string.Join("; ", Styles.Select(s => $"{s.Key}: {s.Value}"))}'";
-            Log("OnStylesApplied", $"Style List applied: {styles}");
+            Styles = $" style='{string.Join("; ", styles.Select(s => $"{s.Key}: {s.Value}"))}'";
+            Log("OnStylesApplied", $"Style List applied: {Styles}");
         }
         protected override void OnClassListApplied()
         {
-            classes = $" class='{string.Join(" ", Classes)}'";
-            Log("OnClassListApplied", $"Class List applied: {classes}");
+            Classes = $" class='{string.Join(" ", classes)}'";
+            Log("OnClassListApplied", $"Class List applied: {Classes}");
         }
-        protected override bool HasClasses() => Classes.Count > 0;
-        protected override bool HasStyles() => Styles.Count > 0;
+        protected override bool HasClasses() => classes.Count > 0;
+        protected override bool HasStyles() => styles.Count > 0;
         private void Log(string prefix, string message)
         {
             Console.WriteLine($"[{TagName}][{prefix}] {message}");
-            visitor.Visit(this);
         }
-        public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
         public IIterator<LightElementNode> GetIterator(Func<LightElementNode, IIterator<LightElementNode>> iterator)
         {
             return iterator(this);
