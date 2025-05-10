@@ -1,4 +1,5 @@
-﻿using Composite;
+﻿using Composite.Visitor.Implementations;
+using Composite;
 public class Program
 {
     public static void Main()
@@ -56,7 +57,30 @@ public class Program
 
         container.AddChild(p);
 
+        Console.WriteLine("=== Initial HTML ===");
         string html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
         Console.WriteLine(html);
+
+        Console.WriteLine("\n=== Counted Tags ===");
+        var pCounter = new TagCounter("p");
+        var tdCounter = new TagCounter("td");
+        container.Accept(pCounter);
+        container.Accept(tdCounter);
+
+        Console.WriteLine($"<p> count: {pCounter.Count}");
+        Console.WriteLine($"<td> count: {tdCounter.Count}");
+
+        Console.WriteLine("\n=== Replaced Text ===");
+        var nicknameReplace = new TextReplacer("nickname", "test");
+        var emailReplace = new TextReplacer("email", "placeholder");
+        container.Accept(nicknameReplace);
+        container.Accept(emailReplace);
+
+        html = System.Xml.Linq.XElement.Parse(container.OuterHtml).ToString();
+        Console.WriteLine(html);
+
+        Console.WriteLine("\n=== Tree View ===");
+        var treeViewer = new TreeViewer();
+        container.Accept(treeViewer);
     }
 }

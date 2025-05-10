@@ -1,6 +1,7 @@
-﻿namespace Composite
+﻿using Composite.Visitor;
+namespace Composite
 {
-    public class LightElementNode : LightNode
+    public class LightElementNode : LightNode, IVisitable
     {
         public string TagName { get; set; }
         public bool Block { get; set; }
@@ -33,5 +34,9 @@
             }
         }
         public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
