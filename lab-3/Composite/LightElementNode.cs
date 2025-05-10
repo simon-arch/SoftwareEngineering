@@ -1,6 +1,9 @@
-﻿namespace Composite
+﻿using Composite.Iterator;
+using Composite.Iterator.Implementations;
+
+namespace Composite
 {
-    public class LightElementNode : LightNode
+    public class LightElementNode : LightNode, IAggregate<LightElementNode>
     {
         public string TagName { get; set; }
         public bool Block { get; set; }
@@ -33,5 +36,9 @@
             }
         }
         public override string InnerHtml => string.Join("", Children.Select(child => child.OuterHtml));
+        public IIterator<LightElementNode> GetIterator(Func<LightElementNode, IIterator<LightElementNode>> iterator)
+        {
+            return iterator(this);
+        }
     }
 }
